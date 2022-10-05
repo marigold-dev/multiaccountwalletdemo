@@ -1,6 +1,6 @@
 import { AccountInfo, DAppClient, TezosOperationType } from '@airgap/beacon-sdk';
 import { Contract, ContractsService } from '@dipdup/tzkt-api';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './App.css';
 import ConnectButton from './ConnectWallet';
 import DisconnectButton from './DisconnectWallet';
@@ -22,11 +22,6 @@ function App() {
     await dAppClient.setActiveAccount(a);
     console.log("active is : " + a.address);
   }
-
-  useEffect(() => {
-
-  }, [activeAccount]);
-
 
 
   const fetchContracts = () => {
@@ -56,60 +51,60 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>
-
-          <hr />
-          <h1 onClick={() => changeAccount(userAddress)}>USER1</h1>
-
-          {!userAddress ?
-            <ConnectButton
-              Tezos={dAppClient}
-              setUserAddress={setUserAddress}
-            />
-            :
-            <DisconnectButton
-              Tezos={dAppClient}
-              userAddress={userAddress}
-              setUserAddress={setUserAddress}
-            />}
-
-          <div>
-            I am {userAddress} {activeAccount?.address == userAddress ? "(active)" : ""}
-          </div>
-
-          <hr />
-          <h1 onClick={() => changeAccount(userAddress2)}>USER2</h1>
-
-          {!userAddress2 ?
-            <ConnectButton
-              Tezos={dAppClient}
-              setUserAddress={setUserAddress2}
-            />
-            :
-            <DisconnectButton
-              Tezos={dAppClient}
-              userAddress={userAddress2}
-              setUserAddress={setUserAddress2}
-            />
-          }
-
-          <div>
-            I am {userAddress2} {activeAccount?.address == userAddress2 ? "(active)" : ""}
-          </div>
-
-          <hr />
 
 
-          <br />
-          <div>
-            <button onClick={fetchContracts}>Fetch contracts</button>
-            <table><thead><tr><th>address</th><th>people</th><th>action</th></tr></thead><tbody>
-              {contracts.map((contract) => <tr><td style={{ borderStyle: "dotted" }}>{contract.address}</td><td style={{ borderStyle: "dotted" }}>{contract.storage.join(", ")}</td><td style={{ borderStyle: "dotted" }}>
-                <button onClick={() => poke(contract)}>Poke</button>
-              </td></tr>)}
-            </tbody></table>          </div>
+        <hr />
+        <h1 onClick={() => changeAccount(userAddress)}>USER1</h1>
 
-        </p>
+        {!userAddress ?
+          <ConnectButton
+            Tezos={dAppClient}
+            setUserAddress={setUserAddress}
+          />
+          :
+          <DisconnectButton
+            Tezos={dAppClient}
+            userAddress={userAddress}
+            setUserAddress={setUserAddress}
+          />}
+
+        <div>
+          I am {userAddress} {activeAccount?.address == userAddress ? "(active)" : ""}
+        </div>
+
+        <hr />
+        <h1 onClick={() => changeAccount(userAddress2)}>USER2</h1>
+
+        {!userAddress2 ?
+          <ConnectButton
+            Tezos={dAppClient}
+            setUserAddress={setUserAddress2}
+          />
+          :
+          <DisconnectButton
+            Tezos={dAppClient}
+            userAddress={userAddress2}
+            setUserAddress={setUserAddress2}
+          />
+        }
+
+        <div>
+          I am {userAddress2} {activeAccount?.address == userAddress2 ? "(active)" : ""}
+        </div>
+
+        <hr />
+
+
+        <br />
+        <div>
+          <button onClick={fetchContracts}>Fetch contracts</button>
+          <table><thead><tr><th>address</th><th>people</th><th>action</th></tr></thead><tbody>
+            {contracts.map((contract) => <tr><td style={{ borderStyle: "dotted" }}>{contract.address}</td><td style={{ borderStyle: "dotted" }}>{contract.storage.join(", ")}</td><td style={{ borderStyle: "dotted" }}>
+              <button onClick={() => poke(contract)}>Poke</button>
+            </td></tr>)}
+          </tbody></table>          </div>
+
+
 
       </header>
     </div>

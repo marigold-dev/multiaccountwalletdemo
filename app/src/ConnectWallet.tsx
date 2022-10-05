@@ -19,7 +19,7 @@ const ConnectButton = ({
             //to authorize new connection
             await Tezos.clearActiveAccount();
 
-            if ((await Tezos.getAccounts()).length != 2) {
+            if ((await Tezos.getAccounts()).length == 1 || (await Tezos.getAccounts()).length == 2) {
                 const permissions = await Tezos.requestPermissions({
                     network: {
                         type: NetworkType.KATHMANDUNET,
