@@ -1,25 +1,30 @@
 import { AccountInfo, DAppClient, TezosOperationType } from '@airgap/beacon-sdk';
 import { Contract, ContractsService } from '@dipdup/tzkt-api';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import ConnectButton from './ConnectWallet';
 import DisconnectButton from './DisconnectWallet';
 
 function App() {
 
-  const [dAppClient, setdAppClient] = useState<DAppClient>(new DAppClient({ name: "Test" }));
+  const [dAppClient, setdAppClient] = useState<DAppClient>();
   const [userAddress, setUserAddress] = useState<string>("");
   const [userAddress2, setUserAddress2] = useState<string>("");
   const [activeAccount, setActiveAccount] = useState<AccountInfo>();
   const contractsService = new ContractsService({ baseUrl: "https://api.kathmandunet.tzkt.io", version: "", withCredentials: false });
   const [contracts, setContracts] = useState<Array<Contract>>([]);
 
+  useEffect(
+    () => {
+      setdAppClient(new DAppClient({ name: "Test" }));
+    }, []
+  );
 
   const changeAccount = async (address: string) => {
-    const a: AccountInfo = (await dAppClient.getAccounts()).find(a => a.address == address)!;
+    const a: AccountInfo = (await dAppClient!.getAccounts()).find(a => a.address == address)!;
     setActiveAccount(a);
-    await dAppClient.clearActiveAccount();
-    await dAppClient.setActiveAccount(a);
+    await dAppClient!.clearActiveAccount();
+    await dAppClient!.setActiveAccount(a);
     console.log("active is : " + a.address);
   }
 
@@ -33,8 +38,8 @@ function App() {
 
   const poke = async (contract: Contract) => {
     try {
-      alert("poke with signer " + (await dAppClient.getActiveAccount()!)?.address);
-      const response = await dAppClient.requestOperation({
+      alert("poke with signer " + (await dAppClient!.getActiveAccount()!)?.address);
+      const response = await dAppClient!.requestOperation({
         operationDetails: [{
           kind: TezosOperationType.TRANSACTION,
           destination: contract.address!,
@@ -58,12 +63,12 @@ function App() {
 
         {!userAddress ?
           <ConnectButton
-            Tezos={dAppClient}
+            Tezos={dAppClient!}
             setUserAddress={setUserAddress}
           />
           :
           <DisconnectButton
-            Tezos={dAppClient}
+            Tezos={dAppClient!}
             userAddress={userAddress}
             setUserAddress={setUserAddress}
           />}
@@ -77,12 +82,12 @@ function App() {
 
         {!userAddress2 ?
           <ConnectButton
-            Tezos={dAppClient}
+            Tezos={dAppClient!}
             setUserAddress={setUserAddress2}
           />
           :
           <DisconnectButton
-            Tezos={dAppClient}
+            Tezos={dAppClient!}
             userAddress={userAddress2}
             setUserAddress={setUserAddress2}
           />
