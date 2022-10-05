@@ -2,8 +2,8 @@ import { AccountInfo, DAppClient, TezosOperationType } from '@airgap/beacon-sdk'
 import { Contract, ContractsService } from '@dipdup/tzkt-api';
 import { useEffect, useState } from 'react';
 import './App.css';
-import ConnectButton from './ConnectWallet';
-import DisconnectButton from './DisconnectWallet';
+import ConnectButton from './ConnectWallet.only1atATime';
+import DisconnectButton from './DisconnectWallet.only1atATime';
 
 function App() {
 
