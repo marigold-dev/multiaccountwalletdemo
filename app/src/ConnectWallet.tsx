@@ -27,6 +27,16 @@ const ConnectButton = ({
                     }
                 });
                 setUserAddress(permissions.address);
+            } else if ((await Tezos.getAccounts()).length == 2) {
+                Tezos.removeAllAccounts();
+                console.log("cleaning old local storage");
+                const permissions = await Tezos.requestPermissions({
+                    network: {
+                        type: NetworkType.KATHMANDUNET,
+                        rpcUrl: "https://KATHMANDUNET.tezos.marigold.dev"
+                    }
+                });
+                setUserAddress(permissions.address);
             }
             else {
                 console.log("no more accounts to log")

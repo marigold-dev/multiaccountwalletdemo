@@ -17,6 +17,7 @@ function App() {
   useEffect(
     () => {
       setdAppClient(new DAppClient({ name: "Test" }));
+      console.log("call once");
     }, []
   );
 
