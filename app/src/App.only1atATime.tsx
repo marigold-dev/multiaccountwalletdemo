@@ -9,19 +9,9 @@ function App() {
 
   const [dAppClient, setdAppClient] = useState<DAppClient>(new DAppClient({ name: "Test" }));
   const [userAddress, setUserAddress] = useState<string>("");
-  const [userAddress2, setUserAddress2] = useState<string>("");
   const [activeAccount, setActiveAccount] = useState<AccountInfo>();
   const contractsService = new ContractsService({ baseUrl: "https://api.kathmandunet.tzkt.io", version: "", withCredentials: false });
   const [contracts, setContracts] = useState<Array<Contract>>([]);
-
-
-  const changeAccount = async (address: string) => {
-    const a: AccountInfo = (await dAppClient.getAccounts()).find(a => a.address == address)!;
-    setActiveAccount(a);
-    await dAppClient.clearActiveAccount();
-    await dAppClient.setActiveAccount(a);
-    console.log("active is : " + a.address);
-  }
 
   useEffect(() => {
 
@@ -59,7 +49,7 @@ function App() {
         <p>
 
           <hr />
-          <h1 onClick={() => changeAccount(userAddress)}>USER1</h1>
+          <h1>USER1</h1>
 
           {!userAddress ?
             <ConnectButton
@@ -78,27 +68,6 @@ function App() {
           </div>
 
           <hr />
-          <h1 onClick={() => changeAccount(userAddress2)}>USER2</h1>
-
-          {!userAddress2 ?
-            <ConnectButton
-              Tezos={dAppClient}
-              setUserAddress={setUserAddress2}
-            />
-            :
-            <DisconnectButton
-              Tezos={dAppClient}
-              userAddress={userAddress2}
-              setUserAddress={setUserAddress2}
-            />
-          }
-
-          <div>
-            I am {userAddress2} {activeAccount?.address == userAddress2 ? "(active)" : ""}
-          </div>
-
-          <hr />
-
 
           <br />
           <div>
